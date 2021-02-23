@@ -42,7 +42,8 @@ import json
 # Import python module
 CHECK_MODULE = ''
 try:
-    import exifread
+    import 
+  read
     CHECK_MODULE = 'exifread'
 except:
     pass
@@ -235,7 +236,7 @@ class ImportPhotos:
         self.toolMouseClick = MouseClick(self.canvas, self)
 
         self.fields = ['ID', 'Name', 'Date', 'Time', 'Lon', 'Lat', 'Altitude', 'North', 'Azimuth', 'Camera Maker',
-                       'Camera Model', 'Title', 'Comment', 'Path', 'RelPath', 'Timestamp', 'Images']
+                       'Camera Model', 'Title', 'Comment', 'Path', 'RelPath', 'Timestamp', 'Images', 'Orientation']
 
         self.extension_switch = {
             ".shp": "ESRI Shapefile",
@@ -668,6 +669,14 @@ class ImportPhotos:
                             user_comm = ''
                     except:
                         user_comm = ''
+                    try:
+                        if 'Keywords' in tags:
+                            keywords=tags['Keywords']
+                        else:
+                            keywords=''
+                    except:
+                        keywords=''
+                      
 
                 if CHECK_MODULE == 'PIL' and not self.exifread_module:
                     self.pil_module = True
@@ -758,7 +767,8 @@ class ImportPhotos:
                                            'Azimuth': azimuth,
                                            'Camera Maker': str(maker), 'Camera Model': str(model), 'Title': str(title),
                                            'Comment': user_comm,'Path': imgpath, 'RelPath': RelPath,
-                                           'Timestamp': timestamp, 'Images': ImagesSrc},
+                                           'Timestamp': timestamp, 'Images': ImagesSrc, 'Orientation': orientation,
+                                           'Keywords': keywords},
                             "geometry": {"coordinates": [lon, lat], "type": "Point"}}
                 self.geoPhotos.append(geo_info)
 
